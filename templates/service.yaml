@@ -35,3 +35,25 @@ spec:
   selector:
     {{- include "mastodon.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/instance: streaming
+
+---
+
+{{- if .Values.s3proxy.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mastodon.fullname" . }}-s3proxy
+  labels:
+    {{- include "mastodon.labels" . | nindent 4 }}
+    app.kubernetes.io/instance: s3proxy
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "mastodon.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/instance: s3proxy
+{{- end }}

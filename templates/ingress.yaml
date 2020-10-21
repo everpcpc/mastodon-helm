@@ -25,6 +25,15 @@ spec:
         {{- end }}
       secretName: {{ .secretName }}
     {{- end }}
+    {{- if .Values.s3proxy.enabled }}
+    {{- if .Values.s3proxy.tlsSecretName }}
+    - hosts:
+        {{- range .Values.s3proxy.hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .Values.s3proxy.tlsSecretName }}
+    {{- end }}
+    {{- end }}
   {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}
@@ -41,5 +50,16 @@ spec:
               serviceName: {{ $fullName }}-streaming
               servicePort: streaming
           {{- end }}
+    {{- end }}
+    {{- if .Values.s3proxy.enabled }}
+    {{- range .Values.s3proxy.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ $fullName }}-s3proxy
+              servicePort: http
+    {{- end }}
     {{- end }}
   {{- end }}

@@ -79,6 +79,25 @@ sidekiq:
       cpu: 100m
       memory: 128Mi
 
+s3proxy:
+  enabled: false
+  tlsSecretName: lain-mastodon-social-tls
+  hosts:
+    - lain.mastodon.social
+  image: pottava/s3-proxy
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  env:
+    # ref: https://github.com/pottava/aws-s3-proxy
+    CORS_ALLOW_ORIGIN: "*"
+    HEALTHCHECK_PATH: "/healthz"
+
 env:
   RAILS_ENV: production
 
