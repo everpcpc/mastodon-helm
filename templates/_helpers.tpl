@@ -47,8 +47,8 @@ Selector labels
 */}}
 {{- define "mastodon.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "mastodon.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+{{/* app.kubernetes.io/instance: {{ .Release.Name }} */}}
 
 {{/*
 Create the name of the service account to use

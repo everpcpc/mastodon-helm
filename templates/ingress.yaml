@@ -1,6 +1,5 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "mastodon.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
 {{- else -}}
@@ -11,6 +10,7 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "mastodon.labels" . | nindent 4 }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -34,8 +34,12 @@ spec:
           {{- range .paths }}
           - path: {{ . }}
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
+              serviceName: {{ $fullName }}-web
+              servicePort: web
+          - path: {{ . }}api/v1/streaming
+            backend:
+              serviceName: {{ $fullName }}-streaming
+              servicePort: streaming
           {{- end }}
     {{- end }}
   {{- end }}
