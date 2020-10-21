@@ -45,7 +45,7 @@ spec:
           env:
             {{- range $k, $v := .Values.env }}
             - name: {{ $k}}
-              value: {{ $v }}
+              value: "{{ $v }}"
             {{- end }}
           ports:
             - name: web
@@ -110,7 +110,7 @@ spec:
           env:
             {{- range $k, $v := .Values.env }}
             - name: {{ $k}}
-              value: {{ $v }}
+              value: "{{ $v }}"
             {{- end }}
           ports:
             - name: streaming
@@ -181,7 +181,7 @@ spec:
           env:
             {{- range $k, $v := .Values.env }}
             - name: {{ $k}}
-              value: {{ $v }}
+              value: "{{ $v }}"
             {{- end }}
           resources:
             {{- toYaml .Values.sidekiq.resources | nindent 12 }}
