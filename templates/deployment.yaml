@@ -42,6 +42,8 @@ spec:
                bundle exec rake db:migrate --trace && \
                bundle exec rails s -p 3000 -b 0.0.0.0"
           ]
+          env:
+            {{- toYaml .Values.env | nindent 12 }}
           ports:
             - name: web
               containerPort: 3000
@@ -102,6 +104,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: [ "yarn", "start" ]
+          env:
+            {{- toYaml .Values.env | nindent 12 }}
           ports:
             - name: streaming
               containerPort: 4000
@@ -168,6 +172,8 @@ spec:
               "-q", "pull",
               "-q", "push"
           ]
+          env:
+            {{- toYaml .Values.env | nindent 12 }}
           resources:
             {{- toYaml .Values.sidekiq.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

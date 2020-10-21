@@ -79,6 +79,9 @@ sidekiq:
       cpu: 100m
       memory: 128Mi
 
+env:
+  - name: RAILS_ENV
+    value: production
 
 autoscaling:
   enabled: false
