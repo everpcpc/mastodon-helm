@@ -43,7 +43,10 @@ spec:
                bundle exec rails s -p 3000 -b 0.0.0.0"
           ]
           env:
-            {{- toYaml .Values.env | nindent 12 }}
+            {{- range $k, $v := .Values.env }}
+            - name: {{ $k}}
+              value: {{ $v }}
+            {{- end }}
           ports:
             - name: web
               containerPort: 3000
@@ -105,7 +108,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: [ "yarn", "start" ]
           env:
-            {{- toYaml .Values.env | nindent 12 }}
+            {{- range $k, $v := .Values.env }}
+            - name: {{ $k}}
+              value: {{ $v }}
+            {{- end }}
           ports:
             - name: streaming
               containerPort: 4000
@@ -173,7 +179,10 @@ spec:
               "-q", "push"
           ]
           env:
-            {{- toYaml .Values.env | nindent 12 }}
+            {{- range $k, $v := .Values.env }}
+            - name: {{ $k}}
+              value: {{ $v }}
+            {{- end }}
           resources:
             {{- toYaml .Values.sidekiq.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

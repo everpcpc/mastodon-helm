@@ -80,8 +80,7 @@ sidekiq:
       memory: 128Mi
 
 env:
-  - name: RAILS_ENV
-    value: production
+  RAILS_ENV: production
 
 autoscaling:
   enabled: false
